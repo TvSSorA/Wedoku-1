@@ -53,11 +53,13 @@
 
     let copied = false;
 
-    let countdown = 3;
+    let countdown: number;
 
     function startCountdown() {
         if (countdown !== 0) {
-            countdown--;
+            setDoc(doc(db, "rooms", roomId), {
+                countdown: countdown - 1
+            }, { merge: true})
         }
     }
 
@@ -66,7 +68,7 @@
     }
 
     function copyMatchLink() {
-        navigator.clipboard.writeText(`127.0.0.1/multi/${roomId}`);
+        navigator.clipboard.writeText(`wedoku.vercel.app/multi/${roomId}`);
         copied = true;
     }
 
@@ -224,6 +226,11 @@
         }
     })
 </script>
+
+<svelte:head>
+	<title>Multiplayer Mode</title>
+</svelte:head>
+
 {#if started}
     {#if countdown}
         <Overlay opacity={0.6} color="#000" zIndex={5}/>
